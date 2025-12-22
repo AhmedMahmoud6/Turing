@@ -22,6 +22,19 @@ const teamMembers = [
     facebook: "https://www.facebook.com/ahmed.mahmoud.570618",
     linkedin: "https://www.linkedin.com/in/ahmed-mahmoud-zaki/",
   },
+  {
+    name: "Ola Rabie",
+    role: "Head PR",
+    image: "/ola.png",
+    facebook: "https://www.facebook.com/olalolo52004",
+  },
+  {
+    name: "Tabark Moukhtar",
+    role: "Admin Lead",
+    image: "/tabark.jpg",
+    facebook: "https://www.facebook.com/tabark.moukthar",
+    linkedin: "https://www.linkedin.com/in/tabark-moukhtar/",
+  },
 ];
 
 export function TeamSection() {
@@ -59,25 +72,32 @@ export function TeamSection() {
               </p>
 
               <div className="flex items-center justify-center gap-3">
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${member.name} LinkedIn`}
-                  className="w-9 h-9 rounded-lg bg-foreground/10 flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300"
-                >
-                  <Linkedin className="w-4 h-4" />
-                </a>
-
-                <a
-                  href={member.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${member.name} Facebook`}
-                  className="w-9 h-9 rounded-lg bg-foreground/10 flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300"
-                >
-                  <Facebook className="w-4 h-4" />
-                </a>
+                {member.linkedin ? (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${member.name} LinkedIn`}
+                    className="w-9 h-9 rounded-lg bg-foreground/10 flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                ) : (
+                  ""
+                )}
+                {member.facebook ? (
+                  <a
+                    href={member.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${member.name} Facebook`}
+                    className="w-9 h-9 rounded-lg bg-foreground/10 flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300"
+                  >
+                    <Facebook className="w-4 h-4" />
+                  </a>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           ))}
