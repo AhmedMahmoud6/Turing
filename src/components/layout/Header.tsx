@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  // { href: "/tickets", label: "Tickets" },
+  { href: "/tickets", label: "Tickets" },
   // { href: "/sponsors", label: "Sponsors" },
 ];
 
@@ -92,11 +92,11 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            {/* <Link to="/tickets" onClick={() => setIsOpen(false)}>
+            <Link to="/tickets" onClick={() => setIsOpen(false)}>
               <Button variant="hero" className="w-full mt-2">
                 Book Tickets
               </Button>
-            </Link> */}
+            </Link>
           </nav>
         </div>
       )}

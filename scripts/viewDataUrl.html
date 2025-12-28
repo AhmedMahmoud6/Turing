@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>View Data URL</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        padding: 20px;
+      }
+      textarea {
+        width: 100%;
+        height: 220px;
+        font-family: monospace;
+      }
+      img {
+        max-width: 100%;
+        max-height: 80vh;
+        display: block;
+        margin-top: 12px;
+      }
+      .controls {
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>View Base64 Data URL</h2>
+    <p>
+      Paste the data URL (starts with <code>data:image/...</code>) below and
+      click View.
+    </p>
+    <textarea id="data" placeholder="Paste data URL here"></textarea>
+    <div class="controls">
+      <button id="view">View</button>
+      <button id="open">Open in new window</button>
+      <button id="clear">Clear</button>
+    </div>
+
+    <div id="preview">
+      <img id="img" alt="preview" />
+      <div id="error" style="color: crimson; margin-top: 8px"></div>
+    </div>
+
+    <script>
+      const dataEl = document.getElementById("data");
+      const img = document.getElementById("img");
+      const err = document.getElementById("error");
+
+      function normalizeInput(raw) {
+        if (!raw) return "";
+        let s = raw.trim();
+        // remove wrapping quotes if present
+        if (
+          (s.startsWith('"') && s.endsWith('"')) ||
+          (s.startsWith("'") && s.endsWith("'"))
+        ) {
+          s = s.slice(1, -1).trim();
+        }
+        // some copy/pastes include url(...)
+        if (s.startsWith("url(") && s.endsWith(")")) {
+          s = s.slice(4, -1).trim();
+        }
+        // collapse newlines
+        s = s.replace(/\r?\n/g, "");
+        return s;
+      }
+
+      function showError(message) {
+        err.textContent = message || "";
+      }
+
+      function trySetImageFromTextarea() {
+        showError("");
+        const raw = dataEl.value;
+        const url = normalizeInput(raw);
+        if (!url) {
+          showError("Paste a data URL first");
+          img.removeAttribute("src");
+          return false;
+        }
+        if (!url.startsWith("data:")) {
+          showError(
+            'Value does not look like a data URL (must start with "data:")'
+          );
+          img.removeAttribute("src");
+          return false;
+        }
+
+        try {
+          img.src = url;
+          return true;
+        } catch (e) {
+          showError("Failed to set image: " + (e && e.message));
+          img.removeAttribute("src");
+          return false;
+        }
+      }
+
+      document.getElementById("view").addEventListener("click", () => {
+        trySetImageFromTextarea();
+      });
+
+      document.getElementById("open").addEventListener("click", () => {
+        if (!trySetImageFromTextarea()) return;
+        const url = normalizeInput(dataEl.value);
+        const w = window.open("", "_blank");
+        if (!w) return showError("Popup blocked - allow popups for this page");
+        w.document.write('<!doctype html><html><body style="margin:0">');
+        w.document.write(
+          '<img src="' +
+            url +
+            '" style="width:100%;height:auto;display:block"/>'
+        );
+        w.document.write("</body></html>");
+        w.document.close();
+      });
+
+      document.getElementById("clear").addEventListener("click", () => {
+        dataEl.value = "";
+        img.removeAttribute("src");
+        showError("");
+      });
+
+      // auto-preview when user pastes or types
+      dataEl.addEventListener("paste", () =>
+        setTimeout(trySetImageFromTextarea, 50)
+      );
+      dataEl.addEventListener("input", () => {
+        // only auto-update when value looks like data url prefix to avoid flicker
+        const v = dataEl.value.trim();
+        if (v.startsWith("data:")) trySetImageFromTextarea();
+      });
+
+      // Expose helper to call from console or other pages: viewDataUrl(url)
+      function viewDataUrl(url) {
+        dataEl.value = url;
+        trySetImageFromTextarea();
+      }
+      window.viewDataUrl = viewDataUrl;
+    </script>
+  </body>
+</html>

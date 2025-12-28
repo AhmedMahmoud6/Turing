@@ -52,7 +52,7 @@ export function HeroSection() {
             <img
               src="/Asset 6.png"
               alt="Turing"
-              className="max-w-[90%] h-auto"
+              className="max-w-[92vw] h-auto mx-auto"
             />
           </h1>
 
@@ -100,7 +100,7 @@ export function HeroSection() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 inset-x-0 flex justify-center animate-bounce">
         <a
           href="#about"
           className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"

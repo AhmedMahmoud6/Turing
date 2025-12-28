@@ -23,7 +23,7 @@ const Index = () => {
         {/* <SpeakersSection /> */}
         {/* <ScheduleSection /> */}
         <WhyAttendSection />
-        <ProgramsSection />
+        {/* <ProgramsSection /> */}
         <VenueSection />
         <TeamSection />
         <SponsorsSection />

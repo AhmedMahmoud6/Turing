@@ -10,6 +10,7 @@ import Tickets from "./pages/Tickets";
 import Sponsors from "./pages/Sponsors";
 import NotFound from "./pages/NotFound";
 import WorkshopRegister from "./pages/WorkshopRegister";
+import PaymentMethods from "./pages/PaymentMethods";
 
 const queryClient = new QueryClient();
 
@@ -23,9 +24,10 @@ const App = () => (
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/register/:id" element={<WorkshopRegister />} />
-            {/* <Route path="/tickets" element={<Tickets />} />
-            <Route path="/sponsors" element={<Sponsors />} /> */}
+            {/* <Route path="/register/:id" element={<WorkshopRegister />} /> */}
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/payment/:packageId" element={<PaymentMethods />} />
+            {/* <Route path="/sponsors" element={<Sponsors />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

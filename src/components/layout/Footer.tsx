@@ -41,15 +41,15 @@ export function Footer() {
                   Home
                 </Link>
               </li>
-              {/* <li>
+              <li>
                 <Link
                   to="/tickets"
-                  className="text-background/70 hover:text-primary transition-colors"
+                  className="text-foreground/70 hover:text-primary transition-colors"
                 >
                   Tickets
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/sponsors"
                   className="text-background/70 hover:text-primary transition-colors"

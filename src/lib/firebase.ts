@@ -67,3 +67,18 @@ export async function saveRegistration(workshopId: string, data: DocumentData) {
 
   return docRef.id;
 }
+
+export async function savePaymentRecord(data: DocumentData) {
+  initFirebaseFromEnv();
+
+  if (!db) {
+    throw new Error("Firestore not initialized");
+  }
+
+  const docRef = await addDoc(collection(db, "payments"), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+
+  return docRef.id;
+}
