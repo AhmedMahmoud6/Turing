@@ -41,6 +41,14 @@ const PaymentMethods = () => {
   } = state;
   const packageId = params.packageId ?? selectedTicket ?? "standard";
 
+  // Compute safe defaults when the page is opened directly (no navigation state)
+  const computedTicket = selectedTicket ?? packageId ?? "standard";
+  const computedOriginalTotal =
+    originalTotal ?? (packageId === "friends" ? 1000 : 250);
+  const computedDiscountAmount = typeof discountAmount === "number" ? discountAmount : 0;
+  const computedTotal =
+    total ?? Math.max(0, Math.round((computedOriginalTotal - computedDiscountAmount) * 100) / 100);
+
   const paymentOptions: Record<
     string,
     {
@@ -176,13 +184,13 @@ const PaymentMethods = () => {
       };
 
       const payload: PaymentPayload = {
-        ticket: selectedTicket ?? null,
+        ticket: computedTicket ?? null,
         quantity: displayQuantity,
-        originalTotal: originalTotal ?? null,
-        discountAmount: discountAmount ?? 0,
+        originalTotal: computedOriginalTotal,
+        discountAmount: computedDiscountAmount,
         promoCode: appliedPromo ?? null,
         hasPromo: !!appliedPromo,
-        total: total ?? null,
+        total: computedTotal,
         packageId: packageId ?? "",
         method,
         photoUrl: fileDataUrl as string,

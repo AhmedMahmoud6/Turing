@@ -24,17 +24,23 @@ export function CTASection() {
 
           {/* Headline */}
           <h2 className="font-heading text-display-sm md:text-display-md font-bold mb-6">
-            Be part of the <span className="text-primary">TURING</span> experience
+            Be part of the <span className="text-primary">TURING</span>{" "}
+            experience
           </h2>
 
           {/* Subheadline */}
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join us on February 6th, 2026 for a day of inspiration, innovation, and unforgettable ideas.
+            Join us on February 6th, 2026 for a day of inspiration, innovation,
+            and unforgettable ideas.
           </p>
 
           {/* CTA Button */}
           <Link to="/tickets">
-            <Button variant="hero" size="xl" className="group">
+            <Button
+              variant="hero"
+              size="xl"
+              className="max-[450px]:w-full group"
+            >
               Book Your Tickets Now
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -43,17 +49,23 @@ export function CTASection() {
           {/* Event Details */}
           <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-muted-foreground">
             <div>
-              <p className="font-heading text-2xl font-bold text-foreground">Feb 6</p>
+              <p className="font-heading text-2xl font-bold text-foreground">
+                Feb 6
+              </p>
               <p className="text-sm">2026</p>
             </div>
             <div className="w-px h-12 bg-border" />
             <div>
-              <p className="font-heading text-2xl font-bold text-foreground">8 AM</p>
-              <p className="text-sm">to 9 PM</p>
+              <p className="font-heading text-2xl font-bold text-foreground">
+                9 AM
+              </p>
+              <p className="text-sm">to 8 PM</p>
             </div>
             <div className="w-px h-12 bg-border" />
             <div>
-              <p className="font-heading text-2xl font-bold text-foreground">GrEEK Campus</p>
+              <p className="font-heading text-2xl font-bold text-foreground">
+                GrEEK Campus
+              </p>
               <p className="text-sm">Mall of Arabia</p>
             </div>
           </div>
