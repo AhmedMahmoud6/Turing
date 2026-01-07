@@ -35,6 +35,11 @@ const teamMembers = [
     facebook: "https://www.facebook.com/tabark.moukthar",
     linkedin: "https://www.linkedin.com/in/tabark-moukhtar/",
   },
+  // {
+  //   name: "Badry",
+  //   role: "OC Manager",
+  //   image: "/badry.jfif",
+  // },
 ];
 
 export function TeamSection() {

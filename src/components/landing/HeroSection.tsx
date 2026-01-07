@@ -84,18 +84,18 @@ export function HeroSection() {
           </div>
 
           {/* CTAs */}
-          {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/tickets">
               <Button variant="hero" size="xl">
                 Book Tickets
               </Button>
             </Link>
-            <a href="#speakers">
+            {/* <a href="#speakers">
               <Button variant="hero-outline" size="xl">
                 Meet the Speakers
               </Button>
-            </a>
-          </div> */}
+            </a> */}
+          </div>
         </div>
       </div>
 

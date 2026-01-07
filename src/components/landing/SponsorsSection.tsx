@@ -2,25 +2,25 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const tiers = [
-  // {
-  //   name: "Platinum",
-  //   className: "tier-platinum",
-  //   images: [],
-  // },
-  // {
-  //   name: "Gold",
-  //   className: "tier-gold",
-  //   images: [],
-  // },
-  // {
-  //   name: "Silver",
-  //   className: "tier-silver",
-  //   images: [],
-  // },
+  {
+    name: "Platinum",
+    className: "tier-platinum",
+    images: ["QNB.jpeg"],
+  },
+  {
+    name: "Gold",
+    className: "tier-gold",
+    images: ["/cardoo-blue.jpeg", "obm.jpg"],
+  },
+  {
+    name: "Silver",
+    className: "tier-silver",
+    images: ["/toco.jpeg", "/Hamwi.png"],
+  },
   {
     name: "Collaborators",
     className: "tier-inkind",
-    images: ["/eyoot.jpg", "shabab.png"],
+    images: ["/eyoot.jpg", "shabab.png", "/ibm.png"],
   },
 ];
 
@@ -60,7 +60,7 @@ export function SponsorsSection() {
                     <div className="text-center">
                       <img
                         src={tier.images[index]}
-                        className="max-w-[150px] max-h-[150px]"
+                        className="rounded-md max-w-[150px] max-h-[150px]"
                         alt="Logo"
                       />
                     </div>

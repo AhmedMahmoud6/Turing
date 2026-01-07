@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/form";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { saveRegistration } from "@/lib/firebase";
+// backend will receive registrations; do not save from client
+// import { saveRegistration } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import type { DocumentData } from "firebase/firestore";
-import emailjs from "@emailjs/browser";
 import { workshops } from "@/components/landing/ProgramsSection";
 
 type FormValues = {
@@ -37,126 +37,49 @@ export default function WorkshopRegister() {
   const [isSaving, setIsSaving] = React.useState(false);
   const lastToastRef = React.useRef<ReturnType<typeof toast> | null>(null);
 
-  const EMAILJS_SERVICE = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const EMAILJS_TEMPLATE = workshops.find(
-    (workId) => workId.id === id
-  ).templateId;
-  const EMAILJS_PUBLIC_KEY =
-    import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
-    import.meta.env.VITE_EMAILJS_USER_ID;
+  const onSubmit = async (data: FormValues) => {
+    setIsSaving(true);
+    const t = toast({
+      title: "Saving...",
+      description: "Submitting your registration",
+    });
+    lastToastRef.current = t;
 
-  // Initialize EmailJS if public key is available
-  React.useEffect(() => {
-    if (EMAILJS_PUBLIC_KEY && typeof emailjs.init === "function") {
-      try {
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-      } catch (err) {
-        console.warn("EmailJS init failed", err);
-      }
-    }
-  }, [EMAILJS_PUBLIC_KEY]);
-
-  const onSubmit = (data: FormValues) => {
-    (async () => {
-      // debug log
-      setIsSaving(true);
-      const t = toast({
-        title: "Saving...",
-        description: "Submitting your registration",
-      });
-      lastToastRef.current = t;
-      try {
-        // Trim string fields to prevent submissions that are only whitespace
-        const payload = {
-          ...data,
-          age: Number(data.age),
+    try {
+      const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+      // determine program metadata from `workshops`
+      const program = workshops.find((w) => w.id === id) || null;
+      const resp = await fetch(`${apiBase}/api/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          workshopId: id,
           name: data.name?.trim(),
           email: data.email?.trim(),
           phone: data.phone?.trim(),
+          age: Number(data.age),
           governorate: data.governorate?.trim(),
-        };
+          // include program title/name and whatsapp group link for the email template
+          program_title: program ? program.title : "",
+          program_name: program ? program.title : "",
+          group_link: program && program.whatsapp_group ? program.whatsapp_group : "",
+        }),
+      });
 
-        await saveRegistration(id as string, payload as DocumentData);
-
-        // Try to send confirmation email (if EmailJS is configured)
-        let emailSent = false;
-        if (EMAILJS_SERVICE && EMAILJS_TEMPLATE && EMAILJS_PUBLIC_KEY) {
-          try {
-            await emailjs.send(
-              EMAILJS_SERVICE,
-              EMAILJS_TEMPLATE,
-              {
-                // include several common variable names so templates with different variable names succeed
-                to_email: payload.email,
-                to_name: payload.name,
-                from_name: payload.name,
-                reply_to: payload.email,
-                email: payload.email,
-                name: payload.name,
-                phone: payload.phone,
-                workshop:
-                  workshops.find((workId) => workId.id === id).title ?? id,
-                governorate: payload.governorate,
-                age: payload.age,
-                message: `Registration for ${
-                  workshops.find((workId) => workId.id === id).title ?? id
-                } by ${payload.name}`,
-              },
-              EMAILJS_PUBLIC_KEY
-            );
-            emailSent = true;
-          } catch (err) {
-            // better error info for 4xx/5xx responses
-            console.error("EmailJS send failed", err);
-            try {
-              // some errors include a `text` or `status` property
-              const details = err?.text || err?.status || JSON.stringify(err);
-              console.error("EmailJS error details:", details);
-              if (t)
-                t.update({
-                  id: t.id,
-                  title: "Saved (email failed)",
-                  description: `Registration saved but confirmation email failed to send: ${details}`,
-                  open: true,
-                });
-            } catch (e) {
-              if (t)
-                t.update({
-                  id: t.id,
-                  title: "Saved (email failed)",
-                  description:
-                    "Registration saved but confirmation email failed to send.",
-                  open: true,
-                });
-            }
-          }
-        }
-
-        t.update({
-          id: t.id,
-          title: "Success",
-          description: emailSent
-            ? "Registration saved and confirmation email sent."
-            : EMAILJS_SERVICE && EMAILJS_TEMPLATE && EMAILJS_PUBLIC_KEY
-            ? "Registration saved. Confirmation email failed to send."
-            : "Registration saved. Confirmation email not configured.",
-          open: true,
-        });
-
+      if (!resp.ok) {
+        const text = await resp.text();
+        console.error("Backend register failed", resp.status, text);
+        t.update({ id: t.id, title: "Error", description: "Failed to save registration.", open: true });
+      } else {
+        t.update({ id: t.id, title: "Success", description: "Registration sent — confirmation will follow.", open: true });
         navigate("/");
-      } catch (e) {
-        console.error("Failed to save registration", e);
-        if (t)
-          t.update({
-            id: t.id,
-            title: "Error",
-            description: "Failed to save registration.",
-            open: true,
-          });
-      } finally {
-        setIsSaving(false);
       }
-    })();
+    } catch (e) {
+      console.error("Failed to call backend", e);
+      if (t) t.update({ id: t.id, title: "Error", description: "Failed to save registration.", open: true });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -290,7 +213,6 @@ export default function WorkshopRegister() {
                   type="button"
                   variant="ghost"
                   onClick={() => {
-                    // dismiss any active toast
                     if (lastToastRef.current) lastToastRef.current.dismiss();
                     navigate(-1);
                   }}

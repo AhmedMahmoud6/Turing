@@ -210,13 +210,11 @@
 
   .tier-gold {
     @apply border-2;
-    border-color: hsl(45 100% 50%);
-    box-shadow: 0 0 20px hsl(45 100% 50% / 0.15);
+    box-shadow: 0 0 20px hsl(45 100% 50% / 0.2);
   }
 
   .tier-silver {
     @apply border-2;
-    border-color: hsl(0 0% 70%);
   }
 
   /* Section Divider */

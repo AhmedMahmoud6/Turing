@@ -9,6 +9,7 @@ type Workshop = {
   end: string; // ISO
   location?: string;
   templateId?: string;
+  whatsapp_group?: string;
 };
 
 export const workshops: Workshop[] = [
@@ -16,9 +17,19 @@ export const workshops: Workshop[] = [
     id: "w1",
     title: "Intro to AI for Developers",
     start: "2025-12-31T10:00:00",
-    end: "2026-01-07T13:00:00",
+    end: "2026-01-05T13:00:00",
     location: "Online",
     templateId: "template_2k1eqrh",
+    whatsapp_group: "https://chat.whatsapp.com/EoZcV358n5VE9xJLMFaL50",
+  },
+  {
+    id: "w2",
+    title: "Level Up with TEDx ITech",
+    start: "2026-01-16T10:00:00",
+    end: "2026-01-23T13:00:00",
+    location: "Online",
+    templateId: "template_2k1eqrh",
+    whatsapp_group: "https://chat.whatsapp.com/EoZcV358n5VE9xJLMFaL50",
   },
 ];
 
