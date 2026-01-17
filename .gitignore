@@ -28,3 +28,4 @@ sa.json
 .venv/
 __pycache__/
 *.pyc
+*scripts
