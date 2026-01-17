@@ -2,25 +2,25 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const tiers = [
-  {
-    name: "Platinum",
-    className: "tier-platinum",
-    images: ["QNB.jpeg"],
-  },
+  // {
+  //   name: "Platinum",
+  //   className: "tier-platinum",
+  //   images: ["QNB.jpeg"],
+  // },
   {
     name: "Gold",
     className: "tier-gold",
-    images: ["/cardoo-blue.jpeg", "obm.jpg"],
+    images: ["/cardoo-blue.jpeg"],
   },
   {
     name: "Silver",
     className: "tier-silver",
-    images: ["/toco.jpeg", "/Hamwi.png"],
+    images: ["/toco.jpeg", "/Hamwi.png", "HireQ.png"],
   },
   {
     name: "Collaborators",
     className: "tier-inkind",
-    images: ["/eyoot.jpg", "shabab.png", "/ibm.png"],
+    images: ["shabab.png", "/eyoot.jpg", "f2a.png"],
   },
 ];
 

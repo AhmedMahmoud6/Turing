@@ -76,16 +76,16 @@ const faqs = [
     answer:
       "Seating is assigned based on ticket type. Friends Package holders are guaranteed seats together. Standard ticket holders receive premium seating on a first-come basis.",
   },
-  {
-    question: "Will there be parking available?",
-    answer:
-      "Yes, Mall of Arabia offers ample parking facilities. The GrEEK Campus is easily accessible from multiple mall entrances.",
-  },
-  {
-    question: "Is the venue accessible?",
-    answer:
-      "Yes, The GrEEK Campus is fully accessible with wheelchair ramps, elevators, and accessible restrooms.",
-  },
+  // {
+  //   question: "Will there be parking available?",
+  //   answer:
+  //     "Yes, Majarrah Mall offers ample parking facilities. Majarrah Mall is easily accessible from multiple mall entrances.",
+  // },
+  // {
+  //   question: "Is the venue accessible?",
+  //   answer:
+  //     "Yes, Majarrah Mall is fully accessible with wheelchair ramps, elevators, and accessible restrooms.",
+  // },
 ];
 
 const Tickets = () => {
@@ -148,12 +148,12 @@ const Tickets = () => {
                     9:00 AM – 8:00 PM
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-primary" />
                   <span className="font-heading font-medium">
-                    GrEEK Campus MOA
+                    Majarrah Mall
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

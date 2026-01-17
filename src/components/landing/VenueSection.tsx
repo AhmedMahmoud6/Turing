@@ -20,8 +20,12 @@ export function VenueSection() {
             {/* Map Placeholder */}
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted border border-border">
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <img src="/greek campus.jpg" alt="Greek Campus" />
+                <div className="text-center h-full object-cover">
+                  <img
+                    src="/majarrah mall.jpeg"
+                    className="h-full object-cover"
+                    alt="Greek Campus"
+                  />
                 </div>
               </div>
             </div>
@@ -29,13 +33,12 @@ export function VenueSection() {
             {/* Venue Info */}
             <div>
               <h3 className="font-heading text-2xl md:text-3xl font-bold mb-6">
-                The GrEEK Campus MOA
+                Majarrah Mall
               </h3>
               <p className="text-muted-foreground mb-8 leading-relaxed">
-                Located in the heart of Mall of Arabia, The GrEEK Campus is a
-                premier innovation hub and event space. With state-of-the-art
-                facilities and a dynamic atmosphere, it's the perfect venue for
-                TURING 2026.
+                Majarrah Mall is a mixed-use retail destination in Sheikh Zayed
+                City, offering shopping, dining, entertainment, and office
+                spaces in a modern, accessible setting serving west Cairo.
               </p>
 
               {/* Details */}
@@ -47,7 +50,7 @@ export function VenueSection() {
                   <div>
                     <p className="font-heading font-medium">Address</p>
                     <p className="text-muted-foreground">
-                      Mall of Arabia, 6th of October City, Egypt
+                      Majarrah Mall, Sheikh Zayed City, Egypt
                     </p>
                   </div>
                 </div>
@@ -66,7 +69,7 @@ export function VenueSection() {
               </div>
 
               <a
-                href="https://maps.app.goo.gl/zoUnDWbMK4m5ELRV6"
+                href="https://maps.app.goo.gl/F637WvVKhSgyHcTv9"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -45,9 +45,14 @@ const PaymentMethods = () => {
   const computedTicket = selectedTicket ?? packageId ?? "standard";
   const computedOriginalTotal =
     originalTotal ?? (packageId === "friends" ? 1000 : 250);
-  const computedDiscountAmount = typeof discountAmount === "number" ? discountAmount : 0;
+  const computedDiscountAmount =
+    typeof discountAmount === "number" ? discountAmount : 0;
   const computedTotal =
-    total ?? Math.max(0, Math.round((computedOriginalTotal - computedDiscountAmount) * 100) / 100);
+    total ??
+    Math.max(
+      0,
+      Math.round((computedOriginalTotal - computedDiscountAmount) * 100) / 100
+    );
 
   const paymentOptions: Record<
     string,
@@ -155,16 +160,118 @@ const PaymentMethods = () => {
   };
 
   const handleSubmit = form.handleSubmit(async (values) => {
-    if (!fileDataUrl) {
-      toast({
-        title: "Upload required",
-        description: "Please upload a photo of the transaction.",
-      });
-      return;
-    }
-
     setLoading(true);
     try {
+        /*
+          Kashier flow (commented out per request). Preserved here for future use.
+        if (method === "kashier") {
+          // Build session request
+          const apiBase =
+            import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+          const orderId = `ticket-${packageId}-${Date.now()}`;
+          const userPayload = {
+            name: values.name?.trim() ?? null,
+            email: values.email?.trim() ?? null,
+            phone: values.phone?.trim() ?? null,
+            age: Number(values.age) || null,
+            promoCode: appliedPromo ?? null,
+            transportation: !!values.transportation,
+          };
+
+          const resp = await fetch(`${apiBase}/api/payment/session`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              amount: String(computedTotal),
+              currency: "EGP",
+              order: orderId,
+              merchantRedirect:
+                window.location.origin + `/payment-result?order=${orderId}`,
+              description: `Ticket payment for ${packageId}`,
+              customerEmail: values.email || undefined,
+              customerReference: orderId,
+              age: userPayload.age,
+              user: userPayload,
+              metaData: { packageId },
+            }),
+          });
+
+          const data = await resp.json();
+
+          const extractError = (d: any): string => {
+            if (!d) return "Failed to create payment session.";
+            if (typeof d === "string") return d;
+
+            const get = (obj: any, path: string[]) => {
+              try {
+                return path.reduce(
+                  (acc: any, key: string) =>
+                    acc && acc[key] != null ? acc[key] : undefined,
+                  obj
+                );
+              } catch {
+                return undefined;
+              }
+            };
+
+            const candidates = [
+              get(d, ["messages", "en"]),
+              get(d, ["message"]),
+              get(d, ["error", "messages", "en"]),
+              get(d, ["error", "message"]),
+              get(d, ["error", "error", "cause"]),
+              get(d, ["error", "error", "message"]),
+              get(d, ["error"]),
+              get(d, ["messages"]),
+            ];
+
+            for (const c of candidates) {
+              if (typeof c === "string" && c.trim().length > 0) return c;
+            }
+
+            try {
+              if (d.error && typeof d.error === "object") return JSON.stringify(d.error);
+              if (d.messages && typeof d.messages === "object") return JSON.stringify(d.messages);
+              return JSON.stringify(d);
+            } catch {
+              return "Failed to create payment session.";
+            }
+          };
+
+          if (!resp.ok) {
+            console.error("Create session failed", resp.status, data);
+            const msg =
+              resp.status === 502
+                ? "Payment gateway is temporarily unavailable. Please try again later."
+                : extractError(data);
+            toast({ title: "Payment error", description: msg });
+            setLoading(false);
+            return;
+          }
+
+          const sessionUrl = data && typeof data.sessionUrl === "string" ? data.sessionUrl : null;
+          if (!sessionUrl) {
+            console.error("Missing sessionUrl", data);
+            toast({ title: "Payment error", description: extractError(data) });
+            setLoading(false);
+            return;
+          }
+
+          window.location.href = sessionUrl;
+          return;
+        }
+        */
+
+      // Fallback: legacy upload flow (should not be used now that Kashier is primary)
+      if (!fileDataUrl) {
+        toast({
+          title: "Upload required",
+          description: "Please upload a photo of the transaction.",
+        });
+        setLoading(false);
+        return;
+      }
+
       type PaymentPayload = {
         ticket: string | null;
         quantity: number;
@@ -215,7 +322,7 @@ const PaymentMethods = () => {
       setLoading(false);
       toast({
         title: "Save failed",
-        description: "Failed to save payment. Try again.",
+        description: "Failed to process payment. Try again.",
         variant: "destructive",
       });
     }
@@ -230,33 +337,33 @@ const PaymentMethods = () => {
             <h1 className="font-heading text-2xl font-bold mb-4">
               Payment Methods
             </h1>
-            <p className="text-muted-foreground mb-6">
-              Choose a method (Vodafone Cash or InstaPay), make the transfer,
-              then upload a photo of the transaction to validate your payment.
-            </p>
+            {method === "kashier" ? (
+              <p className="text-muted-foreground mb-6">
+                You will be redirected to a secure Kashier payment page to
+                complete your card payment.
+              </p>
+            ) : (
+              <p className="text-muted-foreground mb-6">
+                Choose a method (Vodafone Cash or InstaPay), make the transfer,
+                then upload a photo of the transaction to validate your payment.
+              </p>
+            )}
 
             <Form {...form}>
               <form onSubmit={handleSubmit} className="space-y-6 mb-6">
-                <div className="flex items-center gap-6">
+                {/*
+                <div className="mb-4">
                   <label className="flex items-center gap-2">
                     <input
                       type="radio"
                       name="method"
-                      checked={method === "vodafone"}
-                      onChange={() => setMethod("vodafone")}
+                      checked={method === "kashier"}
+                      onChange={() => setMethod("kashier")}
                     />
-                    <span>Vodafone Cash</span>
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="method"
-                      checked={method === "instapay"}
-                      onChange={() => setMethod("instapay")}
-                    />
-                    <span>InstaPay</span>
+                    <span>Kashier</span>
                   </label>
                 </div>
+                */}
 
                 <FormField
                   name="name"
@@ -366,102 +473,83 @@ const PaymentMethods = () => {
                   )}
                 />
 
+                {/* Only Kashier is supported as primary method now */}
+                {/*
+                  The existing upload-and-submit flow is retained below
+                  (used for Vodafone/Instapay). When the user selects
+                  Kashier, we hide the upload UI and show a card payment
+                  button that creates a Kashier session via the backend
+                  and redirects the user to the Kashier `sessionUrl`.
+                */}
+
+                <div className="flex items-center gap-6">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="method"
+                      checked={method === "vodafone"}
+                      onChange={() => setMethod("vodafone")}
+                    />
+                    <span>Vodafone Cash</span>
+                  </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="method"
+                      checked={method === "instapay"}
+                      onChange={() => setMethod("instapay")}
+                    />
+                    <span>InstaPay</span>
+                  </label>
+                </div>
+
                 {method === "vodafone" ? (
                   <div className="p-6 rounded-xl bg-card border w-full sm:w-3/6">
-                    <h4 className="font-heading font-bold mb-2">
-                      Vodafone Cash
-                    </h4>
-                    <img
-                      src={pkg.vodafone.qr}
-                      alt="Vodafone QR"
-                      className="w-full h-auto mb-2"
-                    />
+                    <h4 className="font-heading font-bold mb-2">Vodafone Cash</h4>
+                    <img src={pkg.vodafone.qr} alt="Vodafone QR" className="w-full h-auto mb-2" />
                     <p className="text-sm">Number: {pkg.vodafone.number}</p>
                     <div className="flex gap-2 mt-2">
-                      <a
-                        href={pkg.vodafone.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
+                      <a href={pkg.vodafone.link} target="_blank" rel="noreferrer" className="underline">
                         Open Vodafone
                       </a>
-                      <button
-                        type="button"
-                        onClick={() => copyToClipboard(pkg.vodafone.number)}
-                        className="text-sm underline"
-                      >
+                      <button type="button" onClick={() => copyToClipboard(pkg.vodafone.number)} className="text-sm underline">
                         Copy
                       </button>
                     </div>
-                    <p className="mt-2 text-muted-foreground text-sm">
-                      Quantity: {displayQuantity}
-                    </p>
+                    <p className="mt-2 text-muted-foreground text-sm">Quantity: {displayQuantity}</p>
                   </div>
                 ) : (
                   <div className="p-6 rounded-xl bg-card border w-full sm:w-3/6">
                     <h4 className="font-heading font-bold mb-2">InstaPay</h4>
-                    <img
-                      src={pkg.instapay.qr}
-                      alt="InstaPay QR"
-                      className="w-full h-auto mb-2"
-                    />
+                    <img src={pkg.instapay.qr} alt="InstaPay QR" className="w-full h-auto mb-2" />
                     <p className="text-sm">IPA: {pkg.instapay.ipa}</p>
                     <div className="flex gap-2 mt-2">
-                      <a
-                        href={pkg.instapay.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
+                      <a href={pkg.instapay.link} target="_blank" rel="noreferrer" className="underline">
                         Open InstaPay
                       </a>
-                      <button
-                        type="button"
-                        onClick={() => copyToClipboard(pkg.instapay.ipa)}
-                        className="text-sm underline"
-                      >
+                      <button type="button" onClick={() => copyToClipboard(pkg.instapay.ipa)} className="text-sm underline">
                         Copy
                       </button>
                     </div>
-                    <p className="mt-2 text-muted-foreground text-sm">
-                      Quantity: {displayQuantity}
-                    </p>
+                    <p className="mt-2 text-muted-foreground text-sm">Quantity: {displayQuantity}</p>
                   </div>
                 )}
 
                 <div className="p-6 rounded-xl bg-background/5 border border-background/10">
-                  <label className="block mb-2 font-medium">
-                    Upload transaction photo
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFile(e.target.files?.[0])}
-                  />
+                  <label className="block mb-2 font-medium">Upload transaction photo</label>
+                  <input type="file" accept="image/*" onChange={(e) => handleFile(e.target.files?.[0])} />
                   {fileDataUrl && (
-                    <img
-                      src={fileDataUrl}
-                      alt="preview"
-                      className="mt-4 max-h-60 object-contain"
-                    />
+                    <img src={fileDataUrl} alt="preview" className="mt-4 max-h-60 object-contain" />
                   )}
                 </div>
 
                 <div className="flex gap-4 max-sm:text-xs">
-                  <Button
-                    type="button"
-                    onClick={() => navigate(-1)}
-                    variant="ghost"
-                  >
+                  <Button type="button" onClick={() => navigate(-1)} variant="ghost">
                     Back
                   </Button>
-                  <Button
-                    className="max-sm:text-xs"
-                    type="submit"
-                    disabled={loading}
-                    variant="hero"
-                  >
+
+                  <Button className="max-sm:text-xs" type="submit" disabled={loading} variant="hero">
                     {loading ? "Saving..." : "Upload & Submit"}
                   </Button>
                 </div>

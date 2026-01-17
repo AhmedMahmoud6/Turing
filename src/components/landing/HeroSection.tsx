@@ -74,13 +74,11 @@ export function HeroSection() {
                 9:00 AM – 8:00 PM
               </span>
             </div>
-            <div className="w-px h-6 bg-border hidden sm:block" />
+            {/* <div className="w-px h-6 bg-border hidden sm:block" />
             <div className="flex items-center gap-2 text-foreground/80">
               <MapPin className="w-5 h-5 text-primary" />
-              <span className="font-heading font-medium">
-                The GrEEK Campus MOA
-              </span>
-            </div>
+              <span className="font-heading font-medium">Majarrah Mall</span>
+            </div> */}
           </div>
 
           {/* CTAs */}

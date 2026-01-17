@@ -61,13 +61,13 @@ export function CTASection() {
               </p>
               <p className="text-sm">to 8 PM</p>
             </div>
-            <div className="w-px h-12 bg-border" />
+            {/* <div className="w-px h-12 bg-border" />
             <div>
               <p className="font-heading text-2xl font-bold text-foreground">
-                GrEEK Campus
+                Majarrah Mall
               </p>
-              <p className="text-sm">Mall of Arabia</p>
-            </div>
+              <p className="text-sm">Sheikh Zayed City</p>
+            </div> */}
           </div>
         </div>
       </div>
