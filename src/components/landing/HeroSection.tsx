@@ -65,15 +65,17 @@ export function HeroSection() {
           <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
             <div className="flex items-center gap-2 text-foreground/80">
               <Calendar className="w-5 h-5 text-primary" />
-              <span className="font-heading font-medium">6 Feb 2026</span>
+              <span className="font-heading font-medium text-xl">
+                COMING SOON
+              </span>
             </div>
-            <div className="w-px h-6 bg-border hidden sm:block" />
+            {/* <div className="w-px h-6 bg-border hidden sm:block" />
             <div className="flex items-center gap-2 text-foreground/80">
               <Clock className="w-5 h-5 text-primary" />
               <span className="font-heading font-medium">
                 9:00 AM – 8:00 PM
               </span>
-            </div>
+            </div> */}
             {/* <div className="w-px h-6 bg-border hidden sm:block" />
             <div className="flex items-center gap-2 text-foreground/80">
               <MapPin className="w-5 h-5 text-primary" />
@@ -82,18 +84,18 @@ export function HeroSection() {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/tickets">
               <Button variant="hero" size="xl">
                 Book Tickets
               </Button>
             </Link>
-            {/* <a href="#speakers">
+            <a href="#speakers">
               <Button variant="hero-outline" size="xl">
                 Meet the Speakers
               </Button>
-            </a> */}
-          </div>
+            </a>
+          </div> */}
         </div>
       </div>
 

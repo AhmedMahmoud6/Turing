@@ -11,6 +11,7 @@ import { TeamSection } from "@/components/landing/TeamSection";
 import { SponsorsSection } from "@/components/landing/SponsorsSection";
 import { CTASection } from "@/components/landing/CTASection";
 import { ProgramsSection } from "@/components/landing/ProgramsSection";
+import { InnovateXSection } from "@/components/landing/InnovateXSection";
 
 const Index = () => {
   return (
@@ -24,10 +25,11 @@ const Index = () => {
         {/* <ScheduleSection /> */}
         <WhyAttendSection />
         <ProgramsSection />
+        <InnovateXSection />
         {/* <VenueSection /> */}
         <TeamSection />
         <SponsorsSection />
-        <CTASection />
+        {/* <CTASection /> */}
       </main>
       <Footer />
     </div>

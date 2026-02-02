@@ -35,7 +35,7 @@ export function initFirebaseFromEnv() {
 
   if (!apiKey || !projectId) {
     throw new Error(
-      "Missing VITE_FIREBASE_* environment variables. See README."
+      "Missing VITE_FIREBASE_* environment variables. See README.",
     );
   }
 
@@ -62,6 +62,22 @@ export async function saveRegistration(workshopId: string, data: DocumentData) {
   const docRef = await addDoc(collection(db, "workshop_registrations"), {
     workshopId,
     ...data,
+    createdAt: serverTimestamp(),
+  });
+
+  return docRef.id;
+}
+
+export async function saveCompetitionRegistration(data: DocumentData) {
+  initFirebaseFromEnv();
+
+  if (!db) {
+    throw new Error("Firestore not initialized");
+  }
+
+  const docRef = await addDoc(collection(db, "innovatex_registrations"), {
+    ...data,
+    accepted: false,
     createdAt: serverTimestamp(),
   });
 

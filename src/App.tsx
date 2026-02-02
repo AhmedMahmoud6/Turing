@@ -10,6 +10,8 @@ import Tickets from "./pages/Tickets";
 import Sponsors from "./pages/Sponsors";
 import NotFound from "./pages/NotFound";
 import WorkshopRegister from "./pages/WorkshopRegister";
+import InnovateXRegister from "./pages/InnovateXRegister";
+import InnovateXRules from "./pages/InnovateXRules";
 import PaymentMethods from "./pages/PaymentMethods";
 import PaymentResult from "./pages/PaymentResult";
 import TicketVerify from "./pages/TicketVerify";
@@ -26,10 +28,12 @@ const App = () => (
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/register/:id" element={<WorkshopRegister />} />
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/payment/:packageId" element={<PaymentMethods />} />
-            <Route path="/payment-result" element={<PaymentResult />} />
+            {/* <Route path="/register/:id" element={<WorkshopRegister />} /> */}
+            <Route path="/innovatex/register" element={<InnovateXRegister />} />
+            <Route path="/innovatex/rules" element={<InnovateXRules />} />
+            {/* <Route path="/tickets" element={<Tickets />} /> */}
+            {/* <Route path="/payment/:packageId" element={<PaymentMethods />} /> */}
+            {/* <Route path="/payment-result" element={<PaymentResult />} /> */}
             {/* <Route path="/ticket-verify" element={<TicketVerify />} /> */}
             {/* <Route path="/sponsors" element={<Sponsors />} /> */}
             <Route path="*" element={<NotFound />} />
