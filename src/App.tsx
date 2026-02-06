@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import WorkshopRegister from "./pages/WorkshopRegister";
 import InnovateXRegister from "./pages/InnovateXRegister";
 import InnovateXRules from "./pages/InnovateXRules";
+import InnovateXQuiz from "./pages/InnovateXQuiz";
 import PaymentMethods from "./pages/PaymentMethods";
 import PaymentResult from "./pages/PaymentResult";
 import TicketVerify from "./pages/TicketVerify";
@@ -31,6 +32,7 @@ const App = () => (
             {/* <Route path="/register/:id" element={<WorkshopRegister />} /> */}
             <Route path="/innovatex/register" element={<InnovateXRegister />} />
             <Route path="/innovatex/rules" element={<InnovateXRules />} />
+            <Route path="/innovatex/quiz" element={<InnovateXQuiz />} />
             {/* <Route path="/tickets" element={<Tickets />} /> */}
             {/* <Route path="/payment/:packageId" element={<PaymentMethods />} /> */}
             {/* <Route path="/payment-result" element={<PaymentResult />} /> */}

@@ -48,13 +48,13 @@ export function InnovateXSection() {
           </p>
 
           <div className="flex justify-center">
-            <Link to="/innovatex/register">
+            <Link to="/innovatex/rules">
               <Button
                 variant="default"
                 size="xl"
                 className="group max-[450px]:w-full"
               >
-                Register for InnovateX
+                Rules for InnovateX
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>

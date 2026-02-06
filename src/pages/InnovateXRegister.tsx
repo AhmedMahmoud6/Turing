@@ -14,7 +14,7 @@ import {
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { useToast } from "@/hooks/use-toast";
-import { saveCompetitionRegistration } from "@/lib/firebase";
+import { saveCompetitionRegistration, hasRegistrationWithEmail } from "@/lib/firebase";
 
 type FormValues = {
   name: string;
@@ -34,9 +34,23 @@ export default function InnovateXRegister() {
 
   const onNext = async (data: FormValues) => {
     setIsSaving(true);
-    const t = toast({ title: "Saving...", description: "Submitting registration" });
+    const t = toast({
+      title: "Saving...",
+      description: "Submitting registration",
+    });
 
     try {
+      // check duplicate registration by email before saving
+      const email = data.email?.trim();
+      if (email) {
+        const exists = await hasRegistrationWithEmail(email);
+        if (exists) {
+          t.update({ id: t.id, title: "Already registered", description: "This email is already registered for InnovateX.", open: true });
+          setIsSaving(false);
+          return;
+        }
+      }
+
       const id = await saveCompetitionRegistration({
         name: data.name?.trim(),
         email: data.email?.trim(),
@@ -45,11 +59,26 @@ export default function InnovateXRegister() {
         governorate: data.governorate?.trim(),
       });
 
-      t.update({ id: t.id, title: "Saved", description: "Registration saved.", open: true });
-      navigate("/innovatex/rules", { state: { regId: id } });
+      t.update({
+        id: t.id,
+        title: "Saved",
+        description: "Registration saved.",
+        open: true,
+      });
+      // store regId in localStorage for this browser session so refresh won't lose access
+      try {
+        localStorage.setItem("innovatex_regId", id);
+      } catch (e) {}
+      // proceed to quiz (pass registration id in navigation state)
+      navigate("/innovatex/quiz", { state: { regId: id } });
     } catch (e) {
       console.error("Failed to save InnovateX registration", e);
-      t.update({ id: t.id, title: "Error", description: "Failed to save registration.", open: true });
+      t.update({
+        id: t.id,
+        title: "Error",
+        description: "Failed to save registration.",
+        open: true,
+      });
     } finally {
       setIsSaving(false);
     }
@@ -63,7 +92,9 @@ export default function InnovateXRegister() {
           <h1 className="font-heading text-2xl md:text-3xl font-bold mb-4">
             InnovateX — Stage 1 Registration
           </h1>
-          <p className="mb-6 text-muted-foreground">Please provide your details to register for InnovateX Stage 1.</p>
+          <p className="mb-6 text-muted-foreground">
+            Please provide your details to register for InnovateX Stage 1.
+          </p>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onNext)} className="space-y-4">
@@ -90,7 +121,11 @@ export default function InnovateXRegister() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="you@example.com" type="email" />
+                      <Input
+                        {...field}
+                        placeholder="you@example.com"
+                        type="email"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -142,11 +177,20 @@ export default function InnovateXRegister() {
                 )}
               />
 
+              <p className="mb-4 text-sm text">
+                - After submitting you'll be redirected to the quiz — please
+                have a stable connection and avoid refreshing the page.
+              </p>
+
               <div className="flex gap-3">
                 <Button type="submit" disabled={isSaving}>
                   {isSaving ? "Saving..." : "Next"}
                 </Button>
-                <Button type="button" variant="ghost" onClick={() => navigate(-1)}>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => navigate(-1)}
+                >
                   Cancel
                 </Button>
               </div>
