@@ -88,13 +88,22 @@ const PaymentReview = () => {
 
       // try to notify backend to send email (best-effort)
       try {
-        const apiBase = import.meta.env.VITE_API_BASE_URL || "";
+        const rawApiBase = import.meta.env.VITE_API_BASE_URL || "";
+        const apiBase = rawApiBase ? (rawApiBase.startsWith("http") ? rawApiBase : `https://${rawApiBase}`) : "";
         if (apiBase) {
-          await fetch(`${apiBase}/api/ticket/send`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ paymentId: id, email: p.email, ticketUrl }),
-          });
+          try {
+            const resp = await fetch(`${apiBase}/api/ticket/send`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ paymentId: id, email: p.email, ticketUrl }),
+            });
+            const txt = await resp.text();
+            console.log("/api/ticket/send response (admin call)", { status: resp.status, ok: resp.ok, body: txt });
+          } catch (e) {
+            console.warn("notify backend failed (fetch error)", e);
+          }
+        } else {
+          console.warn("VITE_API_BASE_URL not configured, skipping backend notify");
         }
       } catch (e) {
         console.warn("notify backend failed", e);
