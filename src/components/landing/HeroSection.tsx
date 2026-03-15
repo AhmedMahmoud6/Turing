@@ -66,36 +66,36 @@ export function HeroSection() {
             <div className="flex items-center gap-2 text-foreground/80">
               <Calendar className="w-5 h-5 text-primary" />
               <span className="font-heading font-medium text-xl">
-                COMING SOON
+                28 March
               </span>
             </div>
-            {/* <div className="w-px h-6 bg-border hidden sm:block" />
+            <div className="w-px h-6 bg-border hidden sm:block" />
             <div className="flex items-center gap-2 text-foreground/80">
               <Clock className="w-5 h-5 text-primary" />
               <span className="font-heading font-medium">
                 9:00 AM – 8:00 PM
               </span>
-            </div> */}
-            {/* <div className="w-px h-6 bg-border hidden sm:block" />
+            </div>
+            <div className="w-px h-6 bg-border hidden sm:block" />
             <div className="flex items-center gap-2 text-foreground/80">
               <MapPin className="w-5 h-5 text-primary" />
-              <span className="font-heading font-medium">Majarrah Mall</span>
-            </div> */}
+              <span className="font-heading font-medium">CIC New Cairo</span>
+            </div>
           </div>
 
           {/* CTAs */}
-          {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/tickets">
               <Button variant="hero" size="xl">
                 Book Tickets
               </Button>
             </Link>
-            <a href="#speakers">
+            {/* <a href="#speakers">
               <Button variant="hero-outline" size="xl">
                 Meet the Speakers
               </Button>
-            </a>
-          </div> */}
+            </a> */}
+          </div>
         </div>
       </div>
 

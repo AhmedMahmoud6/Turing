@@ -16,6 +16,7 @@ import InnovateXQuiz from "./pages/InnovateXQuiz";
 import PaymentMethods from "./pages/PaymentMethods";
 import PaymentResult from "./pages/PaymentResult";
 import TicketVerify from "./pages/TicketVerify";
+import PaymentReview from "./pages/PaymentReview";
 
 const queryClient = new QueryClient();
 
@@ -30,11 +31,12 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             {/* <Route path="/register/:id" element={<WorkshopRegister />} /> */}
-            <Route path="/innovatex/register" element={<InnovateXRegister />} />
-            <Route path="/innovatex/rules" element={<InnovateXRules />} />
-            <Route path="/innovatex/quiz" element={<InnovateXQuiz />} />
-            {/* <Route path="/tickets" element={<Tickets />} /> */}
-            {/* <Route path="/payment/:packageId" element={<PaymentMethods />} /> */}
+            {/* <Route path="/innovatex/register" element={<InnovateXRegister />} /> */}
+            {/* <Route path="/innovatex/rules" element={<InnovateXRules />} /> */}
+            {/* <Route path="/innovatex/quiz" element={<InnovateXQuiz />} /> */}
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/payment/:packageId" element={<PaymentMethods />} />
+            <Route path="/admin/payments" element={<PaymentReview />} />
             {/* <Route path="/payment-result" element={<PaymentResult />} /> */}
             {/* <Route path="/ticket-verify" element={<TicketVerify />} /> */}
             {/* <Route path="/sponsors" element={<Sponsors />} /> */}

@@ -22,7 +22,7 @@ export function VenueSection() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center h-full object-cover">
                   <img
-                    src="/majarrah mall.jpeg"
+                    src="/cic.jpg"
                     className="h-full object-cover"
                     alt="Greek Campus"
                   />
@@ -33,12 +33,13 @@ export function VenueSection() {
             {/* Venue Info */}
             <div>
               <h3 className="font-heading text-2xl md:text-3xl font-bold mb-6">
-                Majarrah Mall
+                CIC New Cairo
               </h3>
               <p className="text-muted-foreground mb-8 leading-relaxed">
-                Majarrah Mall is a mixed-use retail destination in Sheikh Zayed
-                City, offering shopping, dining, entertainment, and office
-                spaces in a modern, accessible setting serving west Cairo.
+              The Canadian International College, 
+              is an Egyptian University in Cairo, 
+              Egypt. The CIC is the sole provider of Canadian higher education in Egypt.
+               CIC is the Cairo campus for Cape Breton University.
               </p>
 
               {/* Details */}
@@ -50,7 +51,7 @@ export function VenueSection() {
                   <div>
                     <p className="font-heading font-medium">Address</p>
                     <p className="text-muted-foreground">
-                      Majarrah Mall, Sheikh Zayed City, Egypt
+                      Khalid Ibn El Waleed, New Cairo 1, Cairo, Egypt
                     </p>
                   </div>
                 </div>
@@ -62,14 +63,14 @@ export function VenueSection() {
                   <div>
                     <p className="font-heading font-medium">Event Hours</p>
                     <p className="text-muted-foreground">
-                      9:00 AM – 8:00 PM, February 6th, 2026
+                      9:00 AM – 8:00 PM, March 28, 2026
                     </p>
                   </div>
                 </div>
               </div>
 
               <a
-                href="https://maps.app.goo.gl/F637WvVKhSgyHcTv9"
+                href="https://maps.app.goo.gl/HHJad4TJW1Uep3N1A"
                 target="_blank"
                 rel="noopener noreferrer"
               >

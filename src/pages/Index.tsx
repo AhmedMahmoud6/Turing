@@ -24,12 +24,12 @@ const Index = () => {
         {/* <SpeakersSection /> */}
         {/* <ScheduleSection /> */}
         <WhyAttendSection />
-        <ProgramsSection />
-        <InnovateXSection />
-        {/* <VenueSection /> */}
+        {/* <ProgramsSection /> */}
+        {/* <InnovateXSection /> */}
+        <VenueSection />
         <TeamSection />
         <SponsorsSection />
-        {/* <CTASection /> */}
+        <CTASection />
       </main>
       <Footer />
     </div>

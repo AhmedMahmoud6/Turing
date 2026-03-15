@@ -30,7 +30,7 @@ export function CTASection() {
 
           {/* Subheadline */}
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join us on February 6th, 2026 for a day of inspiration, innovation,
+            Join us on March 28th, 2026 for a day of inspiration, innovation,
             and unforgettable ideas.
           </p>
 
@@ -50,7 +50,7 @@ export function CTASection() {
           <div className="flex flex-wrap items-center justify-center gap-8 mt-12 text-muted-foreground">
             <div>
               <p className="font-heading text-2xl font-bold text-foreground">
-                Feb 6
+                March 6
               </p>
               <p className="text-sm">2026</p>
             </div>

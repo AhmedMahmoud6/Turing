@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  // { href: "/tickets", label: "Tickets" },
+  { href: "/tickets", label: "Tickets" },
   // { href: "/sponsors", label: "Sponsors" },
 ];
 
@@ -54,11 +54,11 @@ export function Header() {
           {/* Actions */}
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            {/* <Link to="/tickets" className="hidden sm:block">
+            <Link to="/tickets" className="hidden sm:block">
               <Button variant="hero" size="sm">
                 Book Tickets
               </Button>
-            </Link> */}
+            </Link>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"

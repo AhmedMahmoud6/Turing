@@ -249,3 +249,29 @@ export async function savePaymentRecord(data: DocumentData) {
 
   return docRef.id;
 }
+
+export async function fetchPayments() {
+  initFirebaseFromEnv();
+
+  if (!db) {
+    throw new Error("Firestore not initialized");
+  }
+
+  const q = query(collection(db, "payments"), orderBy("createdAt", "desc"));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as DocumentData) }));
+}
+
+export async function updatePayment(id: string, patch: DocumentData) {
+  initFirebaseFromEnv();
+  if (!db) throw new Error("Firestore not initialized");
+  const ref = doc(db, "payments", id);
+  await updateDoc(ref, patch);
+}
+
+export async function deletePayment(id: string) {
+  initFirebaseFromEnv();
+  if (!db) throw new Error("Firestore not initialized");
+  const ref = doc(db, "payments", id);
+  await import("firebase/firestore").then(({ deleteDoc }) => deleteDoc(ref));
+}

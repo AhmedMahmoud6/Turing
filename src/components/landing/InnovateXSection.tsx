@@ -47,7 +47,7 @@ export function InnovateXSection() {
             builders. Register now to participate in Stage 1.
           </p>
 
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <Link to="/innovatex/rules">
               <Button
                 variant="default"
@@ -58,7 +58,7 @@ export function InnovateXSection() {
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
