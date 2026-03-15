@@ -79,14 +79,10 @@ const PaymentReview = () => {
     try {
       setBusy(id, true);
       const ticketUrl = `${window.location.origin}/ticket/${id}`;
-      // mark as sent and store ticketUrl
-      await updatePayment(id, {
-        ticketSent: true,
-        ticketSentAt: serverTimestamp(),
-        ticketUrl,
-      });
 
-      // try to notify backend to send email (best-effort)
+      // First: notify backend to actually send the email (if configured).
+      let backendNotified = false;
+      let backendResponseText: string | null = null;
       try {
         const rawApiBase = import.meta.env.VITE_API_BASE_URL || "";
         const apiBase = rawApiBase ? (rawApiBase.startsWith("http") ? rawApiBase : `https://${rawApiBase}`) : "";
@@ -98,18 +94,39 @@ const PaymentReview = () => {
               body: JSON.stringify({ paymentId: id, email: p.email, ticketUrl }),
             });
             const txt = await resp.text();
+            backendResponseText = txt;
+            backendNotified = resp.ok;
             console.log("/api/ticket/send response (admin call)", { status: resp.status, ok: resp.ok, body: txt });
           } catch (e) {
             console.warn("notify backend failed (fetch error)", e);
           }
         } else {
-          console.warn("VITE_API_BASE_URL not configured, skipping backend notify");
+          // no backend configured — treat as local-only flow and mark as sent
+          console.warn("VITE_API_BASE_URL not configured, skipping backend notify and marking sent locally");
+          backendNotified = true;
         }
       } catch (e) {
         console.warn("notify backend failed", e);
       }
 
-      toast({ title: "Ticket sent", description: `Ticket marked sent for ${p.email}` });
+      // If backend reported success (or there is no backend configured), mark the payment as sent.
+      if (backendNotified) {
+        try {
+          await updatePayment(id, {
+            ticketSent: true,
+            ticketSentAt: serverTimestamp(),
+            ticketUrl,
+            ...(backendResponseText ? { ticketResponse: backendResponseText } : {}),
+          });
+          toast({ title: "Ticket sent", description: `Ticket marked sent for ${p.email}` });
+        } catch (uErr) {
+          console.error("Failed to update payment after backend notify", uErr);
+          toast({ title: "Partial success", description: "Backend notified but failed to mark Firestore" });
+        }
+      } else {
+        toast({ title: "Send failed", description: "Could not notify backend to send ticket" });
+      }
+
       await load();
     } catch (err) {
       console.error(err);

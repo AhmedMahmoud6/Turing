@@ -38,7 +38,7 @@ const App = () => (
             <Route path="/payment/:packageId" element={<PaymentMethods />} />
             <Route path="/admin/payments" element={<PaymentReview />} />
             {/* <Route path="/payment-result" element={<PaymentResult />} /> */}
-            {/* <Route path="/ticket-verify" element={<TicketVerify />} /> */}
+            <Route path="/ticket-verify" element={<TicketVerify />} />
             {/* <Route path="/sponsors" element={<Sponsors />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
